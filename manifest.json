@@ -1,0 +1,40 @@
+{
+  "name":"Ashtro",
+  "version":"0.0.1",
+  "manifest_version": 3,
+  "action":{     
+      "default_popup":"index.html",
+      "default_icon":"favicon.png"
+  },
+  "icons": {
+      "128":"favicon.png"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "permissions": [
+    "notifications",
+        "tabs",
+        "management",
+        "cookies",
+        "storage",
+        "activeTab"
+  ],
+  "background": {
+    "service_worker":"background.js"
+  },
+  "content_scripts": [
+    {
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+        ],
+        "run_at": "document_idle",
+        "all_frames": true,
+        "js": [
+            "content.js"
+        ]
+    }
+    ]
+  }
