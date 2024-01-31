@@ -1,37 +1,32 @@
 const body = document.querySelector('body');
-let uId = 12002;
-let eId = 567;
+let spaceCount = 0;
 
 const blockContent = () => {
-      body.style.opacity = '0';
+    body.style.opacity = '0';
 }
 
 const unBlockContent = () => {
     body.style.opacity = '1';
 }
-  
 
-body.onkeypress = function (e) {
-    if(e.ctrlKey){
-        console.log("keydown",e);
+
+// 1. Send a message to the background script or content script requesting the user's data
+chrome.runtime.sendMessage('api-data', (response) => {
+    console.log('Received API data:', response);
+});
+
+
+document.addEventListener('keydown', function (e) {
+    if (e.ctrlKey) {
+        console.log("KeyStroke", e);
         blockContent();
-    } else if (e.key === ' '){
-        console.log("keydown",e);
-        unBlockContent();
+    } else if(e.key === " ") {
+        spaceCount++;
+        if(spaceCount === 2){
+            unBlockContent();
+            spaceCount = 0;
+        }
     } else {
-        console.log('function spacebar misfire');
+        console.log('OnKey down failed', e);
     }
-}
-
-console.log('we are up and running');
-
-
-// const body = document.querySelector('body');
-
-// chrome.runtime.onInstalled.addListener((e) => {
-//     if(e.ctrlKey){
-//         body.style.opacity = '1';
-//     } else {
-//         body.style.opacity = '0';
-//     }
-// });
+});
