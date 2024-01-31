@@ -18,33 +18,36 @@ chrome.runtime.onInstalled.addListener(() => {
     })
 });
 
-// on extension installation gets the allowed urls api data ----------
+// on extension installation gets the allowed urls api data ---------- problem with 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if(message === 'app-data'){
+    if (message === 'app-data') {
         fetch('https://examroom.ai/candidate/assets/script/allowedurl1.json')
-        .then(response => {
-            if(!response.ok){
-                throw new Error('Data failed from network side')
-            }
-            return response.json();
-        })
-        .then( data => {
-            const clientData = data.key.find(element => element.clientId === cId);
-            if(clientData){
-                const allowedUrls = clientData.allowedurls;
-                console.log('data-success');
-                clientUrls = allowedUrls;
-                sendResponse(allowedUrls);
-            } else {
-                sendResponse('client urls not found')
-            }
-        })
-        .catch(error => {
-            console.error('error fetching data', error)
-        })
-        return true
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const clientData = data.key.find(element => element.clientId === cId);
+                if (clientData) {
+                    const alloweditems = clientData.allowedurls;
+                    clientUrls = alloweditems;
+                    sendResponse({ success: true, data: alloweditems });
+                } else {
+                    sendResponse({ success: false, error: 'Client data not found' });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching or parsing data:', error);
+                sendResponse({ success: false, error: 'Failed to fetch or parse data' });
+            });
+
+        // Indicate that this message handler will respond asynchronously
+        return true;
     }
 });
+
 
 // when candidate opens new tab checks if it is in allowed urls and takes actions accordingly ----------
 chrome.tabs.onUpdated.addListener(() => {
@@ -64,12 +67,11 @@ chrome.runtime.onConnect.addListener(port => {
     if (port.name === "devtools") {
       port.onMessage.addListener(msg => {
         if (msg.name === "openDevTools") {
-            chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-                const currentTab = tabs[0];
-                chrome.tabs.remove(currentTab.id);
-            });
+            // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+            //     const currentTab = tabs[0];
+            //     chrome.tabs.remove(currentTab.id);
+            // });
         }
       });
     }
-  });  
-
+  });
