@@ -2,6 +2,7 @@ let cId = 196;
 let clientUrls = ["chrome://","examroom.ai"];
 
 
+// on extension installation closes all tabs and leaves a exai tab open ----------
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.create({
         url:'https://www.examroom.ai'
@@ -17,6 +18,7 @@ chrome.runtime.onInstalled.addListener(() => {
     })
 });
 
+// on extension installation gets the allowed urls api data ----------
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if(message === 'app-data'){
         fetch('https://examroom.ai/candidate/assets/script/allowedurl1.json')
@@ -44,6 +46,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 });
 
+// when candidate opens new tab checks if it is in allowed urls and takes actions accordingly ----------
 chrome.tabs.onUpdated.addListener(() => {
     chrome.tabs.query({currentWindow: true}, function(allTabs) {
         allTabs.forEach(function(tab) {
@@ -56,7 +59,7 @@ chrome.tabs.onUpdated.addListener(() => {
     });
 });
 
-
+// when candidate opens dev tools auto closes the current tab  ----------
 chrome.runtime.onConnect.addListener(port => {
     if (port.name === "devtools") {
       port.onMessage.addListener(msg => {
