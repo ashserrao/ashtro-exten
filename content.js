@@ -20,7 +20,6 @@ document.addEventListener('keydown', function (e) {
     } else if(e.key === " ") {
         spaceCount++;
         if(spaceCount === 2){
-            // console.log(spaceCount);
             unBlockContent();
             spaceCount = 0;
         }
@@ -30,5 +29,5 @@ document.addEventListener('keydown', function (e) {
 })
 
 chrome.runtime.sendMessage('app-data', response => {
-    console.log(response);
+    console.log("working");
 })

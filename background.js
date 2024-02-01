@@ -62,16 +62,50 @@ chrome.tabs.onUpdated.addListener(() => {
     });
 });
 
-// when candidate opens dev tools auto closes the current tab  ----------
 chrome.runtime.onConnect.addListener(port => {
     if (port.name === "devtools") {
       port.onMessage.addListener(msg => {
         if (msg.name === "openDevTools") {
-            // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-            //     const currentTab = tabs[0];
-            //     chrome.tabs.remove(currentTab.id);
-            // });
+          // Iplogging of the system =======================
+          fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+              const systemIP = data.ip;
+              console.log("Current System IP:", systemIP);
+            //   Close the tab with dev tools
+              chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+                const currentTab = tabs[0];
+                chrome.tabs.remove(currentTab.id);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching IP address:', error);
+            });
         }
       });
     }
   });
+  
+
+// when candidate opens dev tools auto closes the current tab  ----------
+// chrome.runtime.onConnect.addListener(port => {
+//     if (port.name === "devtools") {
+//       port.onMessage.addListener(msg => {
+//         if (msg.name === "openDevTools") {
+//             // chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+//             //     const currentTab = tabs[0];
+//             //     chrome.tabs.remove(currentTab.id);
+//             // });
+//         }
+//       });
+//     }
+//   });
+
+
+// function getIp(){
+//     fetch('https://api64.ipify.org?format=json')
+//     .then(data => {
+//         const systemIp = data.ip;
+//         console.log('System ip is:', systemIp);
+//     })
+// }
