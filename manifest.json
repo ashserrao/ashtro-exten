@@ -11,7 +11,8 @@
   },
   "host_permissions": [
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "*://localhost/*"
   ],
   "permissions": [
     "notifications",
@@ -28,7 +29,8 @@
     {
       "matches": [
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "*://localhost/*"
       ],
       "run_at": "document_idle",
       "all_frames": true,
