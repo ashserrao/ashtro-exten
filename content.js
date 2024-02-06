@@ -72,10 +72,6 @@ chrome.runtime.sendMessage("getCandidateData", (response) => {
   }, 2000);
 });
 
-chrome.runtime.sendMessage("exam-status", (response) => {
-  console.log("Event triggered", response);
-});
-
 // External message response
 // request == "uninstall";
 // request == "closedTab";
