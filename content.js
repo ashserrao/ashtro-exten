@@ -1,4 +1,3 @@
-let key = "Key-5058";
 let spaceCount = 0;
 const body = document.querySelector("body");
 
@@ -15,8 +14,46 @@ const unBlockContent = () => {
 
 // keydown event listener --------------------------
 document.addEventListener("keydown", function (e) {
-  if (e.ctrlKey) {
-    console.log("Content blocked due to ctrl keys");
+  if (e.altKey && "tab".indexOf(e.key) !== -1) {
+    console.log(
+      `Content blocked since the candidate pressed alt key and ${e.key}`
+    );
+    blockContent();
+  } else if (e.ctrlKey && e.shiftKey) {
+    console.log(
+      `Content blocked since the candidate pressed ctrl and ${e.key}`
+    );
+    blockContent();
+  } else if (e.shiftKey && e.metaKey) {
+    console.log(
+      `Content blocked since the candidate pressed shift and ${e.metaKey}`
+    );
+    blockContent();
+  } else if (e.ctrlKey && e.shiftKey && "34".indexOf(e.key)) {
+    console.log(`Pressed ctrl key, shift key and ${e.key} key`);
+    blockContent();
+  } else if (
+    [
+      "Shift",
+      "Control",
+      "Alt",
+      "Meta",
+      "meta",
+      "control",
+      "alt",
+      "shift",
+      "Escape",
+      "escape",
+    ].includes(e.key)
+  ) {
+    console.log(
+      `Content blocked since the candidate pressed ${e.key} which is not allowed.`
+    );
+    blockContent();
+  } else if (e.ctrlKey && "cvxspwuaz".indexOf(e.key) !== -1) {
+    console.log(
+      `Content blocked since the candidate pressed ctrl key and ${e.key}`
+    );
     blockContent();
   } else if (e.key === " ") {
     spaceCount++;
@@ -29,12 +66,14 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-chrome.runtime.sendMessage("app-data", (response) => {
-  console.log("working", response);
+chrome.runtime.sendMessage("getCandidateData", (response) => {
+  setTimeout(() => {
+    console.log("working", response);
+  }, 2000);
 });
 
-chrome.runtime.sendMessage("examStarted", (response) => {
-  console.log("working", response);
+chrome.runtime.sendMessage("exam-status", (response) => {
+  console.log("Event triggered", response);
 });
 
 // External message response
@@ -45,28 +84,3 @@ chrome.runtime.sendMessage("examStarted", (response) => {
 // request == "blockExtension";
 // request.key == "checkInstallation";
 // request.key == "installExtension";
-
-// chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
-//     console.log("Received external message:", request, sender);
-//     try {
-//         if (request.key == 'installExtension') {
-//             const manifest = chrome.runtime.getManifest();
-//             console.log('Installing');
-//             return sendResponse({
-//                 type: 'success',
-//                 version: manifest.version,
-//                 installed: true
-//             });
-//         } else if (request === "closedTab") {
-//             console.log('External App message is working');
-
-//             // Send a response back to the sender (parent app)
-//             sendResponse({
-//                 type: 'success',
-//                 message: 'Received closedTab message'
-//             });
-//         }
-//     } catch (error) {
-//         console.error('Error handling external message:', error);
-//     }
-// });
