@@ -26,6 +26,8 @@ chrome.runtime.onInstalled.addListener(() => {
         );
         if (!isMatched) {
           chrome.tabs.remove(tab.id);
+        } else {
+          chrome.tabs.reload(tab.id);
         }
       });
     });
@@ -109,7 +111,7 @@ function getExamUrls() {
       }
     })
     .then((data) => {
-      console.log("Data from URL:", data);
+      // console.log("Data from URL:", data);
       const ClientData = data.key.find(
         (element) => element.clientId === cli_id
       );
@@ -127,6 +129,8 @@ function getExamUrls() {
 async function onRequest() {
   // when status is exam-started ====================================
   if (request === "exam-started") {
+    isRunningExam = true;
+    console.log(isRunningExam);
     getExamUrls();
     // when status is uninstall ====================================
   } else if (request === "uninstall") {
@@ -161,6 +165,8 @@ async function onRequest() {
             const currentTab = tab.id;
             if (currentTab) {
               chrome.tabs.remove(tab.id);
+              isRunningExam = false;
+              console.log(isRunningExam);
             }
           });
         }
