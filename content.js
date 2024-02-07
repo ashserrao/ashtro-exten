@@ -98,10 +98,11 @@ document.addEventListener("keydown", function (e) {
       spaceCount = 0;
     }
   } else {
-    console.log("Keydown event failed", e);
+    console.log("Keydown event failed");
   }
 });
 
+// Candidate details initial trigger ===============================
 chrome.runtime.sendMessage("getCandidateData", (response) => {
   setTimeout(() => {
     console.log("Event-trigger", response);
@@ -117,6 +118,7 @@ chrome.runtime.sendMessage("getCandidateData", (response) => {
 // request.key == "checkInstallation";
 // request.key == "installExtension";
 
+//logging trigger===================================
 function actionLogger(msg) {
   let message = {
     data: "AI",
@@ -127,6 +129,7 @@ function actionLogger(msg) {
   });
 }
 
+// disabled event function =============================
 function disabledEvent(e) {
   if (e.stopPropagation) {
     e.stopPropagation();

@@ -57,6 +57,7 @@ chrome.runtime.onConnect.addListener((port) => {
           .then((data) => {
             const systemIP = data.ip;
             console.log("Current System IP:", systemIP);
+            sendCandidateDetails(systemIP);
             //   Close the tab with dev tools ==========================
             //   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
             //     const currentTab = tabs[0];
@@ -175,6 +176,7 @@ async function onRequest() {
   }
 }
 
+// Gesture logging trigger========================
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.data === "AI") {
     sendResponse("saveGestureLogs working");
@@ -182,21 +184,46 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
+// Gesture logging functions ==============================
 function saveGestureLogs(message) {
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
   try {
     const serveMessage = {
       candidate_id: JSON.stringify(can_id),
       exam_id: JSON.stringify(ex_id),
       client_id: JSON.stringify(cli_id),
       msg: message.msg,
+      timestamp: today.toUTCString(),
     };
-    // Assuming you have a postData function defined elsewhere
     postData("http://localhost:3000/Gesturelogs", serveMessage);
   } catch (error) {
     console.log("saveGestureLogs error", error);
   }
 }
 
+// Candidate data logging function ==============================
+function sendCandidateDetails(data) {
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
+  try {
+    const serveMessage = {
+      by: "chrome",
+      candidate_id: JSON.stringify(can_id),
+      exam_id: JSON.stringify(ex_id),
+      client_id: JSON.stringify(cli_id),
+      ip: data,
+      url: data.url,
+      remarks: "Dev tools opened by candidate",
+      timestamp: today.toUTCString(),
+    };
+    postData("http://localhost:3000/Devlogs", serveMessage);
+  } catch (error) {
+    console.log("saveGestureLogs error", error);
+  }
+}
+
+// post Data function ========================================
 function postData(url, data) {
   fetch(url, {
     method: "POST",
