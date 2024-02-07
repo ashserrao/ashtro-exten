@@ -15,23 +15,29 @@ const unBlockContent = () => {
 // keydown event listener --------------------------
 document.addEventListener("keydown", function (e) {
   if (e.altKey && "tab".indexOf(e.key) !== -1) {
-    console.log(
-      `Content blocked since the candidate pressed alt key and ${e.key}`
-    );
-    blockContent();
+    let value = {
+      remark: `Content blocked since the candidate pressed alt and ${e.key} key which is not allowed.`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && e.shiftKey) {
-    console.log(
-      `Content blocked since the candidate pressed ctrl and ${e.key}`
-    );
-    blockContent();
+    let value = {
+      remark: `Content blocked since the candidate pressed ctrl and ${e.key}`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
   } else if (e.shiftKey && e.metaKey) {
-    console.log(
-      `Content blocked since the candidate pressed shift and ${e.metaKey}`
-    );
-    blockContent();
+    let value = {
+      remark: `Content blocked since the candidate pressed shift and ${e.metaKey}`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && e.shiftKey && "34".indexOf(e.key)) {
-    console.log(`Pressed ctrl key, shift key and ${e.key} key`);
-    blockContent();
+    let value = {
+      remark: `Pressed ctrl key, shift key and ${e.key} key`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
   } else if (
     [
       "Shift",
@@ -46,15 +52,38 @@ document.addEventListener("keydown", function (e) {
       "escape",
     ].includes(e.key)
   ) {
-    console.log(
-      `Content blocked since the candidate pressed ${e.key} which is not allowed.`
-    );
     blockContent();
+    let value = {
+      remark: `Content blocked since the candidate pressed ${e.key} key which is not allowed.`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
+  } else if (
+    [
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8",
+      "F9",
+      "F10",
+      "F11",
+      "F12",
+    ].includes(e.key)
+  ) {
+    let value = {
+      remark: `Content blocked since the candidate pressed ${e.key} key which is not allowed.`,
+    };
+    actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && "cvxspwuaz".indexOf(e.key) !== -1) {
-    console.log(
-      `Content blocked since the candidate pressed ctrl key and ${e.key}`
-    );
-    blockContent();
+    let value = {
+      remark: `Content blocked since the candidate pressed ctrl key and ${e.key}`,
+    };
+    disabledEvent(e);
+    actionLogger(JSON.stringify(value));
   } else if (e.key === " ") {
     spaceCount++;
     if (spaceCount === 2) {
@@ -68,7 +97,7 @@ document.addEventListener("keydown", function (e) {
 
 chrome.runtime.sendMessage("getCandidateData", (response) => {
   setTimeout(() => {
-    console.log("working", response);
+    console.log("Event-trigger", response);
   }, 2000);
 });
 
@@ -80,3 +109,24 @@ chrome.runtime.sendMessage("getCandidateData", (response) => {
 // request == "blockExtension";
 // request.key == "checkInstallation";
 // request.key == "installExtension";
+
+function actionLogger(msg) {
+  let message = {
+    data: "AI",
+    msg: `${msg}`,
+  };
+  chrome.runtime.sendMessage(message, (response) => {
+    console.log(`${response},${msg}`);
+  });
+}
+
+function disabledEvent(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  } else if (window.event) {
+    window.event.cancelBubble = true;
+  } else {
+    e.preventDefault();
+    return false;
+  }
+}

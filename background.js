@@ -1,3 +1,10 @@
+// let request = "exam-started";
+// let can_id = 12345;
+// let ex_id = 123;
+// let cli_id = 196;
+
+//api data variable =================
+
 let request;
 let can_id;
 let ex_id;
@@ -168,6 +175,11 @@ async function onRequest() {
   }
 }
 
-function saveGestureLogs() {
-  console.log("saveGestureLogs working");
-}
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.data === "AI") {
+    sendResponse(`saveGestureLogs working ${can_id}, ${ex_id}, ${cli_id}`);
+  }
+});
+// function saveGestureLogs() {
+//   console.log("saveGestureLogs working");
+// }
