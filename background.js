@@ -177,9 +177,44 @@ async function onRequest() {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.data === "AI") {
-    sendResponse(`saveGestureLogs working ${can_id}, ${ex_id}, ${cli_id}`);
+    sendResponse("saveGestureLogs working");
+    saveGestureLogs(message);
   }
 });
-// function saveGestureLogs() {
-//   console.log("saveGestureLogs working");
-// }
+
+function saveGestureLogs(message) {
+  try {
+    const serveMessage = {
+      candidate_id: JSON.stringify(can_id),
+      exam_id: JSON.stringify(ex_id),
+      client_id: JSON.stringify(cli_id),
+      msg: message.msg,
+    };
+    // Assuming you have a postData function defined elsewhere
+    postData("http://localhost:3000/Gesturelogs", serveMessage);
+  } catch (error) {
+    console.log("saveGestureLogs error", error);
+  }
+}
+
+function postData(url, data) {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("postData response:", data);
+    })
+    .catch((error) => {
+      console.error("Error during postData:", error);
+    });
+}

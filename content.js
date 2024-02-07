@@ -17,24 +17,28 @@ document.addEventListener("keydown", function (e) {
   if (e.altKey && "tab".indexOf(e.key) !== -1) {
     let value = {
       remark: `Content blocked since the candidate pressed alt and ${e.key} key which is not allowed.`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && e.shiftKey) {
     let value = {
       remark: `Content blocked since the candidate pressed ctrl and ${e.key}`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
   } else if (e.shiftKey && e.metaKey) {
     let value = {
       remark: `Content blocked since the candidate pressed shift and ${e.metaKey}`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && e.shiftKey && "34".indexOf(e.key)) {
     let value = {
       remark: `Pressed ctrl key, shift key and ${e.key} key`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
@@ -55,6 +59,7 @@ document.addEventListener("keydown", function (e) {
     blockContent();
     let value = {
       remark: `Content blocked since the candidate pressed ${e.key} key which is not allowed.`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
@@ -76,11 +81,13 @@ document.addEventListener("keydown", function (e) {
   ) {
     let value = {
       remark: `Content blocked since the candidate pressed ${e.key} key which is not allowed.`,
+      url: window.location.href,
     };
     actionLogger(JSON.stringify(value));
   } else if (e.ctrlKey && "cvxspwuaz".indexOf(e.key) !== -1) {
     let value = {
       remark: `Content blocked since the candidate pressed ctrl key and ${e.key}`,
+      url: window.location.href,
     };
     disabledEvent(e);
     actionLogger(JSON.stringify(value));
