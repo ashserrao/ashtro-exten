@@ -1,188 +1,168 @@
-// let request = "exam-started";
-// let can_id = 12345;
-// let ex_id = 123;
-// let cli_id = 196;
-
-//api data variable =================
-
-let request;
-let can_id;
-let ex_id;
-let cli_id;
-let clientUrls = ["chrome://", "examroom.ai"];
-let candidateData;
+console.log(navigator.hardwareConcurrency);
+//api data variables ============================
+let request, can_id, ex_id, cli_id;
+let clientUrls = ["chrome://", "edge://", "examroom.ai"];
 let isRunningExam = false;
 
-// on extension installation closes all tabs and leaves a exai tab open ====================
+// on extension installation ======================
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.tabs.create({
-    url: "https://www.examroom.ai",
-  }),
-    chrome.tabs.query({ currentWindow: true }, function (allTabs) {
-      allTabs.forEach(function (tab) {
-        const tabUrl = tab.url;
-        let isMatched = clientUrls.some((allowedurl) =>
-          tabUrl.includes(allowedurl)
-        );
-        if (!isMatched) {
-          chrome.tabs.remove(tab.id);
-        } else {
-          chrome.tabs.reload(tab.id);
-        }
-      });
-    });
-});
-
-// when candidate opens new tab checks if it is in allowed urls and takes actions accordingly ==============
-chrome.tabs.onUpdated.addListener(() => {
-  chrome.tabs.query({ currentWindow: true }, function (allTabs) {
-    allTabs.forEach(function (tab) {
+  chrome.tabs.create({ url: "https://www.examroom.ai" });
+  chrome.tabs.query({ currentWindow: true }, (allTabs) => {
+    allTabs.forEach((tab) => {
       const tabUrl = tab.url;
-      let isMatched = clientUrls.some((allowedurl) =>
-        tabUrl.includes(allowedurl)
-      );
-      if (!isMatched) {
+      if (!clientUrls.some((allowedurl) => tabUrl.includes(allowedurl))) {
         chrome.tabs.remove(tab.id);
+      } else {
+        chrome.tabs.reload(tab.id);
       }
     });
   });
 });
 
-// Function on opening dev tools ==========================================================
+// when candidate opens new tab ===================
+chrome.tabs.onUpdated.addListener(() => {
+  if (isRunningExam) {
+    chrome.tabs.query({ currentWindow: true }, (allTabs) => {
+      allTabs.forEach((tab) => {
+        if (!clientUrls.some((allowedurl) => tab.url.includes(allowedurl))) {
+          chrome.tabs.remove(tab.id);
+        }
+      });
+    });
+  } else {
+    console.log("Exam is not running");
+  }
+});
+
+// Function on opening dev tools ===================
 chrome.runtime.onConnect.addListener((port) => {
   if (port.name === "devtools") {
     port.onMessage.addListener((msg) => {
       if (msg.name === "openDevTools") {
-        // Iplogging of the system =======================
-        fetch("https://api64.ipify.org?format=json")
-          .then((response) => response.json())
-          .then((data) => {
-            const systemIP = data.ip;
-            console.log("Current System IP:", systemIP);
-            sendCandidateDetails(systemIP);
-            //   Close the tab with dev tools ==========================
-            //   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-            //     const currentTab = tabs[0];
-            //     chrome.tabs.remove(currentTab.id);
-            //   });
-          })
-          .catch((error) => {
-            console.error("Error fetching IP address:", error);
-          });
+        fetchSystemIP();
       }
     });
   }
 });
 
+// Fetch system IP =================================
+function fetchSystemIP() {
+  fetch("https://api64.ipify.org?format=json")
+    .then((response) => response.json())
+    .then((data) => {
+      const systemIP = data.ip;
+      console.log("Current System IP:", systemIP);
+      sendCandidateDetails(systemIP);
+    })
+    .catch((error) => {
+      console.error("Error fetching IP address:", error);
+    });
+}
+
+// Fetch candidate data ============================
+function fetchCandidateData() {
+  fetch("http://localhost:3000/candidate")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response error");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      ({
+        client_id: cli_id,
+        request,
+        candidate_id: can_id,
+        exam_id: ex_id,
+      } = data[0]);
+      onRequest();
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      chrome.runtime.sendMessage({ error: error.message });
+    });
+}
+
+// Run request every 5 seconds ====================
+setInterval(fetchCandidateData, 5000);
+
+// Run checker every 2 mins ====================
+setInterval(installChecker, 5000);
+
+// Listen for getCandidateData message ==============
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message === "getCandidateData") {
-    fetch("http://localhost:3000/candidate")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response error");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // cli_id = parseInt(data[0].client_id);
-        cli_id = data[0].client_id;
-        request = data[0].request;
-        can_id = data[0].candidate_id;
-        ex_id = data[0].exam_id;
-        sendResponse({ message: "working", cli_id });
-        onRequest();
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        sendResponse({ error: error.message });
-      });
+    fetchCandidateData();
     return true;
   }
 });
 
-// getting client irls ==============================================
-function getExamUrls() {
-  return fetch("https://examroom.ai/candidate/assets/script/allowedurl1.json")
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Network data error");
-      }
-    })
-    .then((data) => {
-      // console.log("Data from URL:", data);
-      const ClientData = data.key.find(
-        (element) => element.clientId === cli_id
-      );
-      if (ClientData) {
-        clientUrls = ClientData.allowedurls;
-        console.log(clientUrls);
-        return clientUrls;
-      } else {
-        throw new Error("Error in client data");
-      }
-    });
-}
-
-// on extension installation gets the allowed urls api data =============================
-async function onRequest() {
-  // when status is exam-started ====================================
-  if (request === "exam-started") {
-    isRunningExam = true;
-    console.log(isRunningExam);
-    getExamUrls();
-    // when status is uninstall ====================================
-  } else if (request === "uninstall") {
-    chrome.management.uninstall(chrome.runtime.id);
-    // when status is closed tab ====================================
-  } else if (request === "closedTab") {
-    try {
-      chrome.tabs.query(
-        { active: false, currentWindow: true },
-        function (allTabs) {
-          allTabs.forEach(function (tab) {
-            const currentTab = tab.id;
-            if (currentTab) {
-              chrome.tabs.remove(tab.id);
-            }
-          });
-        }
-      );
-      // chrome.management.uninstall(chrome.runtime.id);
-    } catch {
-      (error) => {
-        console.log("error during exam completion", error);
-      };
+// Getting client urls ==============================
+async function getExamUrls() {
+  try {
+    const response = await fetch(
+      "https://examroom.ai/candidate/assets/script/allowedurl1.json"
+    );
+    if (!response.ok) throw new Error("Network data error");
+    const data = await response.json();
+    const clientData = data.key.find((element) => element.clientId === cli_id);
+    if (clientData) {
+      clientUrls = clientData.allowedurls;
+    } else {
+      throw new Error("Error in client data");
     }
-    // when status is exam-completed ====================================
-  } else if (request == "exam-completed") {
-    try {
-      chrome.tabs.query(
-        { active: false, currentWindow: true },
-        function (allTabs) {
-          allTabs.forEach(function (tab) {
-            const currentTab = tab.id;
-            if (currentTab) {
-              chrome.tabs.remove(tab.id);
-              isRunningExam = false;
-              console.log(isRunningExam);
-            }
-          });
-        }
-      );
-      // chrome.management.uninstall(chrome.runtime.id);
-    } catch {
-      (error) => {
-        console.log("error during exam completion", error);
-      };
-    }
-  } else {
-    console.log("error in exam status");
+  } catch (error) {
+    console.error("Error fetching client URLs:", error);
   }
 }
 
-// Gesture logging trigger========================
+// Functions on request =============================
+function onRequest() {
+  switch (request) {
+    case "exam-started":
+      isRunningExam = true;
+      console.log(isRunningExam);
+      getExamUrls();
+      break;
+    case "uninstall":
+      chrome.management.uninstall(chrome.runtime.id);
+      break;
+    case "closedTab":
+      closeTabs();
+      isRunningExam = false;
+      break;
+    case "exam-completed":
+      // chrome.management.uninstall(chrome.runtime.id);
+      closeTabs();
+      isRunningExam = false;
+      console.log(isRunningExam);
+      break;
+    case "block-extension":
+      isRunningExam = false;
+      cli_id = undefined;
+      request = undefined;
+      can_id = undefined;
+      ex_id = undefined;
+      break;
+    default:
+      console.log("Request not found:", request);
+  }
+}
+
+// Close tabs =====================================
+function closeTabs() {
+  try {
+    chrome.tabs.query({ active: false, currentWindow: true }, (allTabs) => {
+      allTabs.forEach((tab) => {
+        chrome.tabs.remove(tab.id);
+      });
+    });
+  } catch (error) {
+    console.error("Error closing tabs:", error);
+  }
+}
+
+// Gesture logging trigger =========================
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.data === "AI") {
     sendResponse("saveGestureLogs working");
@@ -190,7 +170,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Gesture logging functions ==============================
+// Gesture logging ================================
 function saveGestureLogs(message) {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -202,13 +182,41 @@ function saveGestureLogs(message) {
       msg: message.msg,
       timestamp: today.toUTCString(),
     };
-    postData("http://localhost:3000/Gesturelogs", serveMessage);
+    if (serveMessage.candidate_id) {
+      postData("http://localhost:3000/Gesturelogs", serveMessage);
+    } else {
+      console.log("No candidate details");
+    }
   } catch (error) {
-    console.log("saveGestureLogs error", error);
+    console.error("Error saving gesture logs:", error);
   }
 }
 
-// Candidate data logging function ==============================
+//Install checker ==========
+function installChecker(data) {
+  try {
+    if (can_id) {
+      const payload = {
+        candidate: can_id,
+        status: data,
+      };
+      postData("http://localhost:3000/installChecker", payload);
+
+      // window["chrome"].runtime.sendMessage(
+      //   "extension-installation-message",
+      //   (response) => {
+      //     console.log(response);
+      //   }
+      // );
+    } else {
+      console.log("Candidate details not found in data");
+    }
+  } catch (err) {
+    console.error("Error in install checker:", err);
+  }
+}
+
+// Candidate data logging ===========================
 function sendCandidateDetails(data) {
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed);
@@ -225,17 +233,15 @@ function sendCandidateDetails(data) {
     };
     postData("http://localhost:3000/Devlogs", serveMessage);
   } catch (error) {
-    console.log("saveGestureLogs error", error);
+    console.error("Error sending candidate details:", error);
   }
 }
 
-// post Data function ========================================
+// Post data =======================================
 function postData(url, data) {
   fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   })
     .then((response) => {
@@ -245,9 +251,9 @@ function postData(url, data) {
       return response.json();
     })
     .then((data) => {
-      console.log("postData response:", data);
+      console.log("Post data response:", data);
     })
     .catch((error) => {
-      console.error("Error during postData:", error);
+      console.error("Error posting data:", error);
     });
 }

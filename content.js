@@ -128,18 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // Candidate details initial trigger ===============================
 chrome.runtime.sendMessage("getCandidateData", (response) => {
   setTimeout(() => {
-    console.log("Event-trigger", response);
+    console.log("Event-trigger");
   }, 2000);
 });
-
-// External message response
-// request == "uninstall";
-// request == "closedTab";
-// request == "examCompleted";
-// request == "examStarted";
-// request == "blockExtension";
-// request.key == "checkInstallation";
-// request.key == "installExtension";
 
 // disabled event function =============================
 function disabledEvent(e) {
@@ -153,7 +144,6 @@ function disabledEvent(e) {
   }
 }
 
-// disabled mouse right-click event function =============================
 document.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
