@@ -1,4 +1,3 @@
-console.log(navigator.hardwareConcurrency);
 //api data variables ============================
 let request, can_id, ex_id, cli_id;
 let clientUrls = ["chrome://", "edge://", "examroom.ai"];
@@ -86,8 +85,7 @@ function fetchCandidateData() {
 // Run request every 5 seconds ====================
 setInterval(fetchCandidateData, 5000);
 
-// Run checker every 2 mins ====================
-setInterval(installChecker, 5000);
+// setInterval(installChecker, 5000);
 
 // Listen for getCandidateData message ==============
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -256,4 +254,52 @@ function postData(url, data) {
     .catch((error) => {
       console.error("Error posting data:", error);
     });
+}
+
+// CPU and RAM Load trigger ===============================
+setInterval(SysStat, 5000);
+
+//Number of processor in the system==================
+console.log(
+  `Number of processor in the system ${navigator.hardwareConcurrency}`
+);
+//System CPU and RAM processing monitoring ==========================
+//usage : {idle: 228072500000, kernel: 10593906250, total: 244910312500, user: 6243906250}
+var previousCPU = null;
+
+function SysStat() {
+  //CPU Load ==========================
+  chrome.system.cpu.getInfo(function (info) {
+    var usedPers = 0;
+    for (var i = 0; i < info.numOfProcessors; i++) {
+      var usage = info.processors[i].usage;
+      if (previousCPU !== null) {
+        var oldUsage = previousCPU.processors[i].usage;
+        usedInPercentage = Math.floor(
+          ((usage.kernel + usage.user - oldUsage.kernel - oldUsage.user) /
+            (usage.total - oldUsage.total)) *
+            100
+        );
+      } else {
+        usedInPercentage = Math.floor(
+          ((usage.kernel + usage.user) / usage.total) * 100
+        );
+      }
+      usedPers += usedInPercentage;
+      // console.log(`Processor ${i + 1}: ${usedInPercentage}%`);
+    }
+    usedPers = Math.round(usedPers / info.numOfProcessors);
+    previousCPU = info;
+    console.log(`CPU Model ${info.modelName}`);
+    console.log(`CPU Load: ${usedPers}%`);
+  });
+
+  // RAM Load ================================
+  chrome.system.memory.getInfo(function (info) {
+    var r_usage =
+      100 - Math.round((info.availableCapacity / info.capacity) * 100);
+    var r_cap = parseInt(info.capacity / 1000000000);
+    console.log(`RAM capacity ${r_cap}`);
+    console.log(`RAM usage ${r_usage}%`);
+  });
 }

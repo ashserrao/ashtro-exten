@@ -16,7 +16,14 @@
     "management",
     "cookies",
     "storage",
-    "activeTab"
+    "activeTab",
+    "system.memory",
+    "system.cpu",
+    "browsingData",
+    "desktopCapture",
+    "tabCapture",
+    "identity",
+    "input"
   ],
   "background": {
     "service_worker": "background.js"
