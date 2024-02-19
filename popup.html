@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"
       rel="stylesheet"
     />
-    <link
+    <!-- <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
@@ -20,7 +20,7 @@
     <link
       href="/images/assets/libs/material/material.min.css"
       rel="stylesheet"
-    />
+    /> -->
     <link rel="stylesheet" href="/css/index.css" />
     <!-- <script src="/js/angular.min.js"></script> -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script> -->
@@ -32,6 +32,18 @@
         class="logo"
       />
     </div>
+    <!-- <hr/> -->
+    <div class="rec-btn-content">
+      <h5>Screen Recording</h5>
+      <br />
+      <div class="button_cont">
+        <button id="start-rec">Start Recording</button>
+      </div>
+      <div class="button_cont">
+        <button id="stop-rec">Stop Recording</button>
+      </div>
+    </div>
+    <hr/>
     <div class="ram_section">
       <h5>RAM</h5>
       <p>
@@ -40,22 +52,24 @@
           <span id="ramUsed"></span
         ></p>
       </p>
-      <hr />
       <div class="ram-stats">
         <div class="ram-container">
           <canvas id="ram-chart" width="400" height="320"></canvas>
         </div>
       </div>
     </div>
+    <hr />
     <div class="cpu_section">
       <h5>CPU</h5>
-      <span id="cpuLoad"></span>
       <p>
         <p><span id="cpuModel">Sample Model</span></p>
-        <span>(Gauge per core)</span>
       </p>
-      <hr />
-      <div id="cpu-charts"></div>
+      <p>
+      (Gauge per core)
+      </p>
+      <div id="cpu-charts">
+    </div>
+    <hr />
     <div class="btn-section">
       <div style="float: left">
         <button>
