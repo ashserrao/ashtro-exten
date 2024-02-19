@@ -49,6 +49,7 @@ var core_number = navigator.hardwareConcurrency;
 var cpu_model;
 var cpu_load;
 var cpuUsage = [];
+var graphCpuUsage = [];
 var cpuBalance = [];
 var previousCPU = null;
 
@@ -161,12 +162,6 @@ function ramChartData() {
   ramChart.update();
 }
 
-// //RAM Load trigger ===============================
-// setInterval(function () {
-//   SysStat();
-//   ramChartData();
-// }, 2000);
-
 // CPU Load=====================================
 
 function createChart() {
@@ -213,7 +208,7 @@ function createChart() {
         ctx.textAlign = "right";
         ctx.font = "12px sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText(`${cpuUsage[i]}%`, xcord, ycord);
+        ctx.fillText(`${graphCpuUsage[i]}%`, xcord, ycord);
         // ctx.fillText(`core ${i + 1}`, xcord, ycord);
       },
     };
@@ -241,10 +236,12 @@ function createChart() {
 
 // Updating chart data==========================================
 function updateChartData() {
+  graphCpuUsage.slice(0, 7);
   for (let i = 0; i < core_number; i++) {
     cpuCharts[i].data.datasets[0].data = [cpuUsage[i], cpuBalance[i]];
     cpuCharts[i].update();
   }
+  graphCpuUsage = cpuUsage.slice();
   cpuUsage.splice(0, 7);
   cpuBalance.splice(0, 7);
 }

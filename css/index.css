@@ -15,7 +15,7 @@ hr {
 
 p {
   padding: 0;
-  margin: 0;
+  margin: 10px 0;
 }
 
 .logo {
@@ -59,7 +59,7 @@ p {
 }
 
 .btn-section {
-  margin-bottom: 10px;
+  height: 40px;
 }
 
 .btn-section button {

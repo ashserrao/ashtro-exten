@@ -31,7 +31,7 @@ function onAccessApproved(screenStream, webcamStream) {
     });
     var screenBlob = new Blob(blobs.screen, { type: blobs.screen[0].type });
     var screenUrl = URL.createObjectURL(screenBlob);
-    downloadFile(screenUrl, "screen-recording.webm");
+    downloadFile(screenUrl, `${Date.now()}-screen-recording.webm`);
   };
 
   webcamRecorder.onstop = function () {
@@ -42,7 +42,7 @@ function onAccessApproved(screenStream, webcamStream) {
     });
     var webcamBlob = new Blob(blobs.webcam, { type: blobs.webcam[0].type });
     var webcamUrl = URL.createObjectURL(webcamBlob);
-    downloadFile(webcamUrl, "webcam-recording.webm");
+    downloadFile(webcamUrl, `${Date.now()}-webcam-recording.webm`);
   };
 }
 
