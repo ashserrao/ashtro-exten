@@ -83,9 +83,9 @@ function fetchCandidateData() {
 }
 
 // Run request every 5 seconds ====================
-setInterval(fetchCandidateData, 5000);
+// setInterval(fetchCandidateData, 5000);
 
-// setInterval(installChecker, 5000);
+// setInterval(installChecker, 30000);
 
 // Listen for getCandidateData message ==============
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -257,7 +257,10 @@ function postData(url, data) {
 }
 
 // CPU and RAM Load trigger ===============================
-setInterval(SysStat, 5000);
+setInterval(function () {
+  SysStat();
+  elementChrome();
+}, 5000);
 
 //Number of processor in the system==================
 console.log(
@@ -266,11 +269,15 @@ console.log(
 //System CPU and RAM processing monitoring ==========================
 //usage : {idle: 228072500000, kernel: 10593906250, total: 244910312500, user: 6243906250}
 var previousCPU = null;
+var ram_usage = 75;
+var ram_balance = 100 - ram_usage;
+var ram_capacity;
 
 function SysStat() {
   //CPU Load ==========================
   chrome.system.cpu.getInfo(function (info) {
     var usedPers = 0;
+
     for (var i = 0; i < info.numOfProcessors; i++) {
       var usage = info.processors[i].usage;
       if (previousCPU !== null) {
@@ -295,11 +302,45 @@ function SysStat() {
   });
 
   // RAM Load ================================
+
   chrome.system.memory.getInfo(function (info) {
-    var r_usage =
+    ram_usage =
       100 - Math.round((info.availableCapacity / info.capacity) * 100);
-    var r_cap = parseInt(info.capacity / 1000000000);
-    console.log(`RAM capacity ${r_cap}`);
-    console.log(`RAM usage ${r_usage}%`);
+    ram_capacity = parseInt(info.capacity / 1000000000);
+    console.log(`RAM capacity ${ram_capacity}`);
+    console.log(`RAM usage ${ram_usage}%`);
+  });
+}
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// chrome tabs ====================================
+function elementChrome() {
+  //chrome version =======================
+  console.log(
+    `chrome version: ${/Chrome\/([0-9.]+)/.exec(navigator.userAgent)[1]}`
+  );
+  //Network status ==============================
+  if (navigator.onLine) {
+    console.log("Connected/" + navigator.connection.effectiveType);
+  } else {
+    console.log("Not Connected");
+  }
+  // chrome all window tabs ==============================
+  chrome.windows.getAll({ populate: true }, function (windowList) {
+    var totTabs = 0;
+    // console.log(`Tabs open in current window: ${windowList.length}`);
+    for (var i = 0; i < windowList.length; i++) {
+      totTabs = totTabs + windowList[i].tabs.length;
+    }
+    console.log(`Total number of tabs open: ${totTabs}`);
   });
 }

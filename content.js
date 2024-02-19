@@ -132,6 +132,12 @@ chrome.runtime.sendMessage("getCandidateData", (response) => {
   }, 2000);
 });
 
+chrome.runtime.sendMessage("getRamLoad", (response) => {
+  setTimeout(() => {
+    console.log("getting RAM Load", response);
+  }, 2000);
+});
+
 // disabled event function =============================
 function disabledEvent(e) {
   if (e.stopPropagation) {

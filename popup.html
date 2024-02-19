@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <!-- Fonts and styles -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link href="images/assets/icon-font.min.css" rel="stylesheet" />
+    <link href="images/assets/toolkit-inverse.css" rel="stylesheet" />
+    <link
+      href="/images/assets/libs/material/material.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/index.css" />
+    <!-- <script src="/js/angular.min.js"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script> -->
+  </head>
+  <body>
+    <div class="header">
+      <img
+        src="https://examroom.ai/career/wp-content/uploads/2023/01/MicrosoftTeams-image-71.png"
+        class="logo"
+      />
+    </div>
+    <div class="ram_section">
+      <h5>RAM</h5>
+      <p>
+        <p
+          >Capacity: <span id="ramCapacity"></span> | Used:
+          <span id="ramUsed"></span
+        ></p>
+      </p>
+      <hr />
+      <div class="ram-stats">
+        <div class="ram-container">
+          <canvas id="ram-chart" width="400" height="320"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="cpu_section">
+      <h5>CPU</h5>
+      <span id="cpuLoad"></span>
+      <p>
+        <p><span id="cpuModel">Sample Model</span></p>
+        <span>(Gauge per core)</span>
+      </p>
+      <hr />
+      <div id="cpu-charts"></div>
+    <div class="btn-section">
+      <div style="float: left">
+        <button>
+          <a id="btn-options" href="https://www.chartjs.org/" target="_blank"
+            >Options</a
+          >
+        </button>
+      </div>
+      <div style="float: right">
+        <button>
+          <a
+            href="https://fonts.google.com/icons?icon.query=home"
+            target="_blank"
+            >See All Recordings</a
+          >
+        </button>
+      </div>
+    </div>
+    <script type="text/javascript" src="/js/chart.umd.min.js"></script>
+    <script src="/js/popup.js"></script>
+    <!-- <script src="dummy.js"></script> -->
+  </body>
+</html>
