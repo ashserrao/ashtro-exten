@@ -1,10 +1,7 @@
 // Trigger recording ===========================================
 document.addEventListener("DOMContentLoaded", () => {
-  // Getting selectors of the buttons
   const startVideoButton = document.querySelector("button#start-rec");
   const stopVideoButton = document.querySelector("button#stop-rec");
-
-  // Adding event listeners
   startVideoButton.addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(
@@ -108,7 +105,6 @@ const ram_data = {
   ],
 };
 
-// plugin text block
 const ramChartText = {
   id: "ramChartText",
   afterDatasetsDraw(chart, args, pluginOptions) {
@@ -131,7 +127,7 @@ const ramChartText = {
     ctx.fillText(`${ram_usage}%`, xcord, ycord);
   },
 };
-// Chart type========================================
+
 const ram_Chart = {
   type: "doughnut",
   data: ram_data,
@@ -153,7 +149,7 @@ const ram_Chart = {
 const ramChart = new Chart(document.getElementById("ram-chart"), ram_Chart);
 
 // Define a function to update chart data
-function ramChartData() {
+function updateRamChart() {
   ramCapacity.innerText = ram_capacity + "GB";
   // cpuLoad.innerText = "Overall | " + cpu_load + "%";
   ramUsed.innerText = (ram_usage / 100) * ram_capacity + "GB";
@@ -235,7 +231,7 @@ function createChart() {
 }
 
 // Updating chart data==========================================
-function updateChartData() {
+function updateCpuChart() {
   graphCpuUsage.slice(0, 7);
   for (let i = 0; i < core_number; i++) {
     cpuCharts[i].data.datasets[0].data = [cpuUsage[i], cpuBalance[i]];
@@ -252,6 +248,9 @@ setTimeout(createChart, 500);
 // CPU and RAM Load trigger ===============================
 setInterval(function () {
   SysStat();
-  ramChartData();
-  updateChartData();
+  updateRamChart();
+  updateCpuChart();
 }, 2000);
+
+// Clearing any incstance of setInterval function ============================
+clearInterval();
