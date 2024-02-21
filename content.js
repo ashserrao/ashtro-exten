@@ -2,6 +2,8 @@
 var recorder = null;
 var webcamRecorder = null;
 var screenRecorder = null;
+var screenCount = 0;
+var webcamCount = 0;
 
 function onAccessApproved(screenStream, webcamStream) {
   screenRecorder = new MediaRecorder(screenStream);
@@ -31,7 +33,7 @@ function onAccessApproved(screenStream, webcamStream) {
     });
     var screenBlob = new Blob(blobs.screen, { type: blobs.screen[0].type });
     var screenUrl = URL.createObjectURL(screenBlob);
-    downloadFile(screenUrl, `${Date.now()}-screen-recording.webm`);
+    saveToStorage(screenUrl, "screen");
   };
 
   webcamRecorder.onstop = function () {
@@ -42,19 +44,17 @@ function onAccessApproved(screenStream, webcamStream) {
     });
     var webcamBlob = new Blob(blobs.webcam, { type: blobs.webcam[0].type });
     var webcamUrl = URL.createObjectURL(webcamBlob);
-    downloadFile(webcamUrl, `${Date.now()}-webcam-recording.webm`);
+    saveToStorage(webcamUrl, "webcam");
   };
-}
 
-function downloadFile(url, filename) {
-  var a = document.createElement("a");
-  a.style.display = "none";
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  function saveToStorage(url, key) {
+    chrome.storage.local.set(
+      { [`${key}${key === "screen" ? screenCount++ : webcamCount++}`]: url },
+      function () {
+        console.log(`Saved ${key} to storage.`);
+      }
+    );
+  }
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
-          channelCount: 2, // Enable stereo audio
+          channelCount: 2,
         },
         video: {
           width: 999999999,
@@ -74,7 +74,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         },
       })
       .then((screenStream) => {
-        // Now, get user media for webcam
         navigator.mediaDevices
           .getUserMedia({
             video: true,
@@ -85,7 +84,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             },
           })
           .then((webcamStream) => {
-            // Pass both streams to onAccessApproved
             onAccessApproved(screenStream, webcamStream);
             chrome.runtime.sendMessage({ action: "recording_started" });
           })
@@ -106,6 +104,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     webcamRecorder.stop();
   }
 });
+
 // Key Blocker Compoenent======================================
 document.addEventListener("DOMContentLoaded", function () {
   let spaceCount = 0;

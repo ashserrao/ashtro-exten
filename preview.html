@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="/css/preview.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <h1>Video Preview</h1>
+        </li>
+      </ul>
+      <div class="upload-icon">
+        <button id="download-selected">
+          <span class="material-symbols-outlined"> upload </span>
+        </button>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="video-container">
+        <div class="video-box" id="screenview">
+          <h1>Screen View</h1>
+        </div>
+      </div>
+      <div class="video-container">
+        <div class="video-box" id="webcamview">
+          <h1>webcam View</h1>
+        </div>
+      </div>
+      <span id="no-rec"></span>
+    </div>
+
+    <script src="/js/preview.js"></script>
+  </body>
+</html>
