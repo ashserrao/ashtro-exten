@@ -1,0 +1,124 @@
+body {
+  border: none;
+  width: 400px;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  height: 5px;
+  color: #eceef2;
+}
+
+/* header design section */
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.header .profile-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+
+.header .profile-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-icon button img {
+  border-radius: 50%;
+  height: 40px;
+}
+
+.content {
+  font-size: small;
+  border: none;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.content .card {
+  height: fit-content;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #eceef2;
+  border-radius: 5px;
+}
+
+.content .card h6 {
+  /* font-size: small; */
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 2px 5px;
+}
+
+/* cpu design section */
+.content .items {
+  width: 100%;
+  padding: 5px 5px;
+}
+
+.content .items table {
+  width: 100%;
+}
+
+.content .items td {
+  font-size: small;
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 5px 0;
+  margin: 0;
+  width: 200px;
+}
+
+.content .items td img {
+  padding: 0;
+}
+
+.content .items .col-2 {
+  width: 150px;
+  text-align: end;
+}
+
+.content .items .col-3 {
+  width: 30px;
+  text-align: end;
+}
+
+.content .items span {
+  padding: 0;
+  margin: 0;
+}
+
+/* scrollbar design */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #4f4f4f;
+}

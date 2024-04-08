@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/device.css" />
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo-sec">
+      <img src="/assets/icon.svg" class="logo" />
+      <h4>ExamLock Lite</h4>
+    </div>
+    <div class="profile-icon">
+      <button id="profile">
+        <img src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="content">
+    <h6>Device Preview</h6>
+    <div class="videoSection">
+      <video id="live" autoplay></video>
+      <div class="btn-section">
+        <button class="btn"><img src="/assets/keyboard_voice.svg" /></button>
+        <button class="btn">
+          <img src="/assets/volume_up.svg" /></button>
+        <button class="btn"><img src="/assets/Proctor icon.svg" /></button>
+        <button class="btn"><img src="/assets/more_horiz.svg" /></button>
+      </div>
+    </div>
+    <div class="check-section">
+      <div>
+        <img src="./assets/camera.svg" alt="camera-icon" />
+        Camera: <img id="camera" src="/assets/loading.gif" alt="loading" />
+      </div>
+      <div>
+        <img src="./assets/Microphone.svg" alt="camera-icon" />
+        Microphone: <img id="microphone" src="/assets/loading.gif" alt="loading" />
+      </div>
+      <div>
+        <img src="/assets/Screen Share.svg" /> Video Bitrate: <span id="video-stat">Loading...</span>
+      </div>
+      <div>
+        <img src="/assets/Screen Share.svg" /> Audio Bitrate: <span id="audio-stat">Loading...</span>
+      </div>
+    </div>
+    <button id="exam-continue">Continue</button>
+  </div>
+  <script src="/js/device.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<html>
+
+<head>
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/hardConfig.css" />
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo-sec">
+      <img src="/assets/icon.svg" class="logo" />
+      <h4>ExamLock Lite</h4>
+    </div>
+    <div class="profile-icon">
+      <button id="profile">
+        <img src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="content">
+    <h6>System Check</h6>
+    <div class="card" id="clickcard">
+      <h6>Hardware Configurations</h6>
+      <hr />
+      <div class="config">
+        <div class="ram">
+          <img src="./assets/ram.svg" alt="ram-icon" />RAM:
+          <span id="ram-capacity"></span><img id="ram-reqimg" src="/assets/loading.gif">
+          <p>Overall RAM Usage<span id="ram-usage">0%</span><img id="ram-usedimg" src="/assets/loading.gif"></p>
+          <div class="ram-container">
+            <div class="ram-progress"></div>
+          </div>
+        </div>
+        <div class="cpu-details">
+          <table>
+            <tr>
+              <td><img src="/assets/memory.svg" /> Processor:</td>
+              <td class="col-2"><span id="cpu-model"></span></td>
+              <td class="col-3"><img id="cpu-name" class="loading" src="/assets/loading.gif" /></td>
+            </tr>
+            <tr>
+              <td><img src="/assets/memory.svg" /> CPU Core</td>
+              <td class="col-2"><span id="cpu-core"></span></td>
+              <td class="col-3"><img id="core-number" class="loading" src="/assets/loading.gif" /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="cpu-chart">
+          <div class="cpu">
+            <p>Overall CPU Usage<span id="cpu-usage">0%</span></p>
+            <div class="cpu-container">
+              <div class="cpu-progress"></div>
+            </div>
+            <div class="abc" id="core-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="/js/chart.umd.min.js"></script>
+  <script src="/js/hardConfig.js"></script>
+</body>
+
+</html>

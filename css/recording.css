@@ -1,0 +1,234 @@
+body {
+  border: none;
+  width: 100%;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  height: 5px;
+  color: #eceef2;
+}
+
+/* header design section */
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.header .profile-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+
+.header .profile-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-icon button img {
+  border-radius: 50%;
+  height: 40px;
+}
+
+.content .cont-head {
+  display: inline-flex;
+}
+
+.content .cont-head img {
+  width: fit-content;
+  height: 20px;
+  margin: 5px 5px;
+}
+
+.content .cont-head h5 {
+  color: #d02f44;
+  margin: 2px 0;
+}
+
+#step-head {
+  color: #d02f44;
+}
+
+.content .card {
+  height: fit-content;
+  overflow-y: scroll;
+  margin: 10px 10px 0 10px;
+  padding: 0;
+  border: 2px solid #eceef2;
+  border-radius: 5px;
+  text-align: start;
+}
+
+#rec-header {
+  color: #209e91;
+  font-size: 20px;
+  padding: 0 10px;
+}
+
+#recording-list {
+  width: 100%;
+  color: #d02f44;
+  height: 100px;
+  overflow-y: scroll;
+  list-style-type: none;
+  padding: 0;
+}
+
+#recording-list li {
+  width: 100%;
+  display: flex;
+  flex: 1 1 auto;
+}
+
+#recording-list li button {
+  padding-left: 4%;
+  background-color: transparent;
+  border: none;
+}
+
+#recording-list a {
+  width: 600px;
+  padding: 0 5px;
+  color: #4f4f4f;
+}
+
+#recording-list a:hover {
+  color: #209e91;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.card .cont-cont {
+  font-weight: 500;
+  padding: 0 10px;
+}
+
+.card .cont-cont .steps {
+  display: inline-flex;
+  margin-bottom: 5%;
+}
+
+.steps .step1 {
+  max-width: 300px;
+  padding-right: 30px;
+  border-right: solid 2px #dadfe7;
+}
+
+.steps .step2 {
+  max-width: 300px;
+  padding-left: 30px;
+}
+
+.sub-step {
+  max-width: 250px;
+  display: inline-flex;
+  font-size: small;
+  justify-content: center;
+  text-align: start;
+}
+
+.sub-step img {
+  width: fit-content;
+  height: 28px;
+  margin: 0 5px;
+}
+
+#resize {
+  width: fit-content;
+  height: 20px;
+  margin: 0 5px;
+}
+
+.btn-section {
+  display: flex;
+  justify-content: end;
+  margin: 0 10px;
+}
+
+.btn-section button {
+  padding: 5px 0;
+  margin: 10px 0;
+  width: 120px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+.recContent {
+  justify-content: center;
+  align-items: center;
+}
+
+.recorder {
+  align-items: center;
+  text-align: center;
+}
+
+#rec-status {
+  font-size: 30px;
+  color: #209e91;
+  align-self: center;
+}
+
+.recBtn {
+  align-items: center;
+  justify-content: center;
+}
+
+#exam-continue {
+  padding: 10px 0;
+  margin: 5px 0 0 10px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+#exam-stop {
+  padding: 10px 0;
+  margin: 5px 0 0 10px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+/* scrollbar design */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #4f4f4f;
+}

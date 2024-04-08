@@ -1,0 +1,100 @@
+body {
+  border: none;
+  width: 400px;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  height: 5px;
+  color: #eceef2;
+}
+
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.header .profile-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+
+.header .profile-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-icon button img {
+  border-radius: 50%;
+  height: 40px;
+}
+
+.content {
+  align-items: center;
+  height: 70%;
+  padding: 0 10px;
+}
+
+.content p {
+  font-weight: 500;
+  font-size: 14px;
+  color: #4f4f4f;
+}
+
+/* .content ul {
+
+} */
+
+.content li {
+  font-weight: 500;
+  font-size: 14px;
+  color: #4f4f4f;
+}
+
+.bottom-sec {
+  padding: 0 10px;
+  align-items: center;
+  text-align: center;
+}
+
+.bottom-sec button {
+  padding: 5px 0;
+  margin: 10px 0;
+  width: 380px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #c2c9d2;
+}

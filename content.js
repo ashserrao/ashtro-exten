@@ -1,109 +1,6 @@
-// Local Recording logic ======================================
-var recorder = null;
-var webcamRecorder = null;
-var screenRecorder = null;
-var screenCount = 0;
-var webcamCount = 0;
+console.log("content.js is being injected");
 
-function onAccessApproved(screenStream, webcamStream) {
-  screenRecorder = new MediaRecorder(screenStream);
-  webcamRecorder = new MediaRecorder(webcamStream);
-
-  screenRecorder.start();
-  webcamRecorder.start();
-
-  var blobs = {
-    screen: [],
-    webcam: [],
-  };
-
-  screenRecorder.ondataavailable = function (event) {
-    blobs.screen.push(event.data);
-  };
-
-  webcamRecorder.ondataavailable = function (event) {
-    blobs.webcam.push(event.data);
-  };
-
-  screenRecorder.onstop = function () {
-    screenStream.getTracks().forEach(function (track) {
-      if (track.readyState === "live") {
-        track.stop();
-      }
-    });
-    var screenBlob = new Blob(blobs.screen, { type: blobs.screen[0].type });
-    var screenUrl = URL.createObjectURL(screenBlob);
-    saveToStorage(screenUrl, "screen");
-  };
-
-  webcamRecorder.onstop = function () {
-    webcamStream.getTracks().forEach(function (track) {
-      if (track.readyState === "live") {
-        track.stop();
-      }
-    });
-    var webcamBlob = new Blob(blobs.webcam, { type: blobs.webcam[0].type });
-    var webcamUrl = URL.createObjectURL(webcamBlob);
-    saveToStorage(webcamUrl, "webcam");
-  };
-
-  function saveToStorage(url, key) {
-    chrome.storage.local.set(
-      { [`${key}${key === "screen" ? screenCount++ : webcamCount++}`]: url },
-      function () {
-        console.log(`Saved ${key} to storage.`);
-      }
-    );
-  }
-}
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "request_recording") {
-    console.log("requesting recording");
-    sendResponse(`request-processed: ${message.action}`);
-    navigator.mediaDevices
-      .getDisplayMedia({
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          channelCount: 2,
-        },
-        video: {
-          width: 999999999,
-          height: 999999999,
-        },
-      })
-      .then((screenStream) => {
-        navigator.mediaDevices
-          .getUserMedia({
-            video: true,
-            audio: {
-              echoCancellation: true,
-              noiseSuppression: true,
-              channelCount: 2, // Enable stereo audio
-            },
-          })
-          .then((webcamStream) => {
-            onAccessApproved(screenStream, webcamStream);
-            chrome.runtime.sendMessage({ action: "recording_started" });
-          })
-          .catch((error) => {
-            console.error("Error accessing webcam", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error starting the video", error);
-      });
-  }
-
-  if (message.action === "stop_recording") {
-    console.log("stopping video");
-    sendResponse(`request-processed: ${message.action}`);
-    if (!screenRecorder || !webcamRecorder) return console.log("no recording");
-    screenRecorder.stop();
-    webcamRecorder.stop();
-  }
-});
+loginStatus = false;
 
 // Key Blocker Compoenent======================================
 document.addEventListener("DOMContentLoaded", function () {
@@ -155,6 +52,15 @@ document.addEventListener("DOMContentLoaded", function () {
       disabledEvent(e);
       actionLogger(JSON.stringify(value));
     } else if (e.ctrlKey && e.shiftKey && "34".indexOf(e.key)) {
+      blockContent();
+      let value = {
+        remark: `Pressed ctrl key, shift key and ${e.key} key`,
+        url: window.location.href,
+      };
+      disabledEvent(e);
+      actionLogger(JSON.stringify(value));
+    } else if (e.ctrlKey && e.shiftKey) {
+      blockContent();
       let value = {
         remark: `Pressed ctrl key, shift key and ${e.key} key`,
         url: window.location.href,
@@ -163,14 +69,14 @@ document.addEventListener("DOMContentLoaded", function () {
       actionLogger(JSON.stringify(value));
     } else if (
       [
-        "Shift",
-        "Control",
+        // "Shift",
+        // "Control",
         "Alt",
         "Meta",
         "meta",
-        "control",
+        // "control",
         "alt",
-        "shift",
+        // "shift",
         "Escape",
         "escape",
       ].includes(e.key)

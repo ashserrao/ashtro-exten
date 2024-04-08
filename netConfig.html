@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <!-- Fonts and styles -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/softConfig.css" />
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo-sec">
+      <img src="/assets/icon.svg" class="logo" />
+      <h4>ExamLock Lite</h4>
+    </div>
+    <div class="profile-icon">
+      <button id="profile">
+        <img src="https://www.svgrepo.com/show/23012/profile-user.svg" />
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="content">
+    <h6>System Check</h6>
+    <div class="card" id="clickcard">
+      <h6>Network Configurations</h6>
+      <hr />
+      <div class="items">
+        <table>
+          <tr>
+            <td><img src="/assets/globe.svg" /> Download Speed:</td>
+            <td class="col-2"><span id="os-check">Loading...</span></td>
+          </tr>
+          <tr>
+            <td><img src="/assets/globe.svg" /> Upload Speed:</td>
+            <td class="col-2"><span id="browser-check">Loading...</span></td>
+          </tr>
+          <!-- <tr>
+            <td><img src="/assets/Screen Share.svg" /> Audio Bitrate:</td>
+            <td class="col-2"><span id="audio-stat">Loading...</span></td>
+          </tr>
+          <tr>
+            <td><img src="/assets/Screen Share.svg" /> Video Bitrate:</td>
+            <td class="col-2"><span id="video-stat">Loading...</span></td>
+          </tr> -->
+          <tr>
+            <td><img src="/assets/Screen Share.svg" /> WebRTC adapter:</td>
+            <td class="col-2"><span id="RTC-stat">Loading...</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="/js/netConfig.js"></script>
+</body>
+
+</html>

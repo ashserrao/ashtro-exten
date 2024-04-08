@@ -1,0 +1,303 @@
+body {
+  border: none;
+  width: 400px;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  height: 5px;
+  color: #eceef2;
+}
+
+/* header design section */
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.header .profile-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+
+.header .profile-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-icon button img {
+  border-radius: 50%;
+  height: 40px;
+}
+
+.content {
+  font-size: small;
+  border: none;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.content .card {
+  height: 450px;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #eceef2;
+  border-radius: 5px;
+}
+
+.content .card h6 {
+  /* font-size: small; */
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 2px 5px;
+}
+
+.card .config {
+  margin: 5px 5px;
+}
+
+.config .col-1 {
+  width: 180px;
+}
+
+.config table {
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.config tr {
+  width: 100%;
+}
+
+.config td {
+  font-size: small;
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 0 10px;
+}
+
+.config td img {
+  padding-right: 5px;
+}
+
+/* ram design section */
+.config .ram {
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 10px 5px;
+}
+
+.config .ram img {
+  padding: 0 10px 0 5px;
+}
+
+.config .ram p {
+  margin: 0 0 5px 0;
+  font-size: small;
+  font-weight: 500;
+  padding: 5px 0;
+}
+
+#ram-usage {
+  padding-left: 50%;
+}
+
+.ram-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 350px;
+}
+
+.ram-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1889c5;
+  border-radius: 20px;
+  color: #fff;
+  height: 100%;
+  width: 0;
+  transition: 1s ease 0.3s;
+}
+
+/* cpu design section */
+.config .cpu-details {
+  width: 100%;
+  padding: 5px 5px;
+}
+
+.config .cpu-details table {
+  width: 100%;
+}
+
+.config .cpu-details td {
+  font-size: small;
+  font-weight: 500;
+  color: #4f4f4f;
+  padding: 5px 0;
+  margin: 0;
+  width: 200px;
+}
+
+.config .cpu-details td img {
+  padding: 0;
+}
+
+.config .cpu-details .col-2 {
+  width: 400px;
+  text-align: end;
+}
+
+.config .cpu-details .col-3 {
+  width: 50px;
+  text-align: end;
+}
+
+.config .cpu-details span {
+  padding: 0;
+  margin: 0;
+}
+
+.config .cpu-details .loading {
+  padding: 0 10px;
+}
+
+.config .cpu-chart {
+  color: #4f4f4f;
+  font-size: small;
+  font-weight: 500;
+  width: 100%;
+  padding: 5px;
+}
+
+.cpu-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 350px;
+}
+
+.cpu-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1889c5;
+  border-radius: 20px;
+  color: #fff;
+  height: 100%;
+  width: 0;
+  transition: 1s ease 0.3s;
+}
+
+.config .cpu p {
+  margin: 0 0 10px 0;
+  font-size: small;
+  font-weight: 500;
+  padding-top: 10px;
+}
+
+#cpu-usage {
+  padding-left: 60%;
+}
+
+.core-container {
+  background-color: #dfdfdf;
+  border-radius: 20px;
+  height: 5px;
+  width: 350px;
+}
+
+/* core  progress bar designs*/
+#core-chart {
+  width: 350px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 10px;
+  padding: 0;
+}
+
+.item {
+  width: 90%;
+  padding: 0;
+  margin: 10px 0px;
+}
+
+#core-chart span {
+  width: 150px;
+  font-size: x-small;
+  margin: 0;
+  padding: 0;
+}
+
+#core-chart .core-percentage {
+  width: 20px;
+  margin: 0;
+  padding-left: 70%;
+}
+
+/* progress bar for core utilization */
+progress[value] {
+  --color: #1889c5; /* the progress color */
+  --background: lightgrey; /* the background color */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  height: 5px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-bar {
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-value {
+  border-radius: 10em;
+  background: var(--color);
+}
+progress[value]::-moz-progress-bar {
+  border-radius: 10em;
+  background: var(--color);
+}
+progress::-webkit-progress-value {
+  transition: width 1s ease;
+}
+
+/* scrollbar design */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #4f4f4f;
+}

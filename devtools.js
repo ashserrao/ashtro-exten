@@ -8,3 +8,10 @@ backgroundPort.postMessage({ name: "openDevTools" });
 //     chrome.tabs.remove(currentTab.id);
 //   });
 // });
+//
+//
+//
+//
+//   "chrome_url_overrides": {
+//     "newtab": "newtab.html"
+//   },

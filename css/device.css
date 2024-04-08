@@ -1,0 +1,145 @@
+body {
+  border: none;
+  width: 100%;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  height: 5px;
+  color: #eceef2;
+}
+
+/* header design section */
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.header .profile-icon {
+  display: flex;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+}
+
+.header .profile-icon button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-icon button img {
+  border-radius: 50%;
+  height: 40px;
+}
+
+.content {
+  width: 100%;
+  justify-content: center;
+  font-size: small;
+  border: none;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.content .videoSection {
+  padding: 0;
+  margin: 0;
+}
+
+.content video {
+  width: 650px;
+  height: fit-content;
+  position: relative;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.btn-section {
+  position: relative;
+  bottom: 3rem;
+  width: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-section button {
+  margin: 0 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: #7f8584;
+  color: rgb(255, 255, 255);
+  opacity: 0.65;
+}
+
+.btn-section button:hover {
+  color: #fff;
+}
+
+#exam-continue {
+  padding: 10px 0;
+  margin: 5px 0 0 10px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+#exam-stop {
+  padding: 10px 0;
+  margin: 5px 0 0 10px;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 3px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #209e91;
+  border: none;
+}
+
+.check-section{
+  color: #4f4f4f;
+  font-weight: 500;
+  display: flex;
+  flex: flexwrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* scrollbar design */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: #4f4f4f;
+}

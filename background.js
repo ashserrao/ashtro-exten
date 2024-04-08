@@ -1,6 +1,8 @@
+console.log("background.js is working");
+
 //api data variables ============================
 let request, can_id, ex_id, cli_id;
-let clientUrls = ["chrome://", "edge://", "examroom.ai"];
+let clientUrls = ["chrome://", "chrome-extension://", "edge://", "examroom.ai"];
 let isRunningExam = false;
 
 // on extension installation ======================
@@ -39,10 +41,25 @@ chrome.runtime.onConnect.addListener((port) => {
     port.onMessage.addListener((msg) => {
       if (msg.name === "openDevTools") {
         fetchSystemIP();
+        onDevToolsOpen();
       }
     });
   }
 });
+
+function onDevToolsOpen() {
+  chrome.tabs.query({ currentWindow: true }, (allTabs) => {
+    chrome.tabs.create({ url: "https://examroom.ai/34pizy6/" });
+    allTabs.forEach((tab) => {
+      const tabUrl = tab.url;
+      if (tabUrl === "https://examroom.ai/34pizy6/") {
+        console.log("you tried to hack us page");
+      } else {
+        chrome.tabs.remove(tab.id);
+      }
+    });
+  });
+}
 
 // Fetch system IP =================================
 function fetchSystemIP() {
@@ -256,91 +273,4 @@ function postData(url, data) {
     });
 }
 
-// CPU and RAM Load trigger ===============================
-setInterval(function () {
-  SysStat();
-  elementChrome();
-}, 5000);
-
-//Number of processor in the system==================
-console.log(
-  `Number of processor in the system ${navigator.hardwareConcurrency}`
-);
-//System CPU and RAM processing monitoring ==========================
-//usage : {idle: 228072500000, kernel: 10593906250, total: 244910312500, user: 6243906250}
-var previousCPU = null;
-var ram_usage = 75;
-var ram_balance = 100 - ram_usage;
-var ram_capacity;
-
-function SysStat() {
-  //CPU Load ==========================
-  chrome.system.cpu.getInfo(function (info) {
-    var usedPers = 0;
-
-    for (var i = 0; i < info.numOfProcessors; i++) {
-      var usage = info.processors[i].usage;
-      if (previousCPU !== null) {
-        var oldUsage = previousCPU.processors[i].usage;
-        usedInPercentage = Math.floor(
-          ((usage.kernel + usage.user - oldUsage.kernel - oldUsage.user) /
-            (usage.total - oldUsage.total)) *
-            100
-        );
-      } else {
-        usedInPercentage = Math.floor(
-          ((usage.kernel + usage.user) / usage.total) * 100
-        );
-      }
-      usedPers += usedInPercentage;
-      // console.log(`Processor ${i + 1}: ${usedInPercentage}%`);
-    }
-    usedPers = Math.round(usedPers / info.numOfProcessors);
-    previousCPU = info;
-    console.log(`CPU Model ${info.modelName}`);
-    console.log(`CPU Load: ${usedPers}%`);
-  });
-
-  // RAM Load ================================
-
-  chrome.system.memory.getInfo(function (info) {
-    ram_usage =
-      100 - Math.round((info.availableCapacity / info.capacity) * 100);
-    ram_capacity = parseInt(info.capacity / 1000000000);
-    console.log(`RAM capacity ${ram_capacity}`);
-    console.log(`RAM usage ${ram_usage}%`);
-  });
-}
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-// chrome tabs ====================================
-function elementChrome() {
-  //chrome version =======================
-  console.log(
-    `chrome version: ${/Chrome\/([0-9.]+)/.exec(navigator.userAgent)[1]}`
-  );
-  //Network status ==============================
-  if (navigator.onLine) {
-    console.log("Connected/" + navigator.connection.effectiveType);
-  } else {
-    console.log("Not Connected");
-  }
-  // chrome all window tabs ==============================
-  chrome.windows.getAll({ populate: true }, function (windowList) {
-    var totTabs = 0;
-    // console.log(`Tabs open in current window: ${windowList.length}`);
-    for (var i = 0; i < windowList.length; i++) {
-      totTabs = totTabs + windowList[i].tabs.length;
-    }
-    console.log(`Total number of tabs open: ${totTabs}`);
-  });
-}
+//AddFlags=== https://erv2developmentapi.examroom.ai/ProctorBFF/api/Flags/AddFlags?tenantGuid=FFD83A47-B597-4FFB-A359-4A3A544DCDE4&userGuid=DE4FDB3B-21F4-425B-AC27-C5EFED044DF1&examPersonEventGuid=3fa85f64-5717-4562-b3fc-2c963f66afa

@@ -1,0 +1,80 @@
+body {
+  min-width: 400px;
+  width: 100%;
+  height: 550px;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  /* height: 5px; */
+  color: #eceef2;
+}
+
+/* header design section */
+.header {
+  margin: 10px 25px 20px 10px;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: inherit;
+  color: black;
+}
+
+.header .logo-sec {
+  display: flex;
+  flex-wrap: wrap;
+  color: black;
+}
+
+.logo {
+  height: 30px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+#backArrow {
+  background-color: transparent;
+  border: none;
+  margin: 2px 0;
+  height: 25px;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.profile-content {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  height: fit-content;
+  background-color: #f9f9f9;
+}
+
+.profile-content img {
+  margin: 0;
+  padding: 0;
+  height: 100px;
+  border-radius: 50%;
+  width: fit-content;
+}
+
+.profile-content h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.profile-content p {
+  margin: 0;
+  padding: 0;
+}
+
+.options button {
+  background-color: transparent;
+  border: none;
+  margin: 10px 5px;
+  text-decoration: none;
+  color: #4f4f4f;
+  font-weight: 500;
+}
